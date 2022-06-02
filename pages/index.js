@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {_apiCreateGuests} from "./ajax/GuestsService";
+import {_apiCreateGuests} from "../util/ajax/GuestsService";
 
 const Home = ({settings}) => {
 
