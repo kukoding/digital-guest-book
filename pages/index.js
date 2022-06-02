@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {_apiCreateGuests, _apiUpdateGuests} from "../util/ajax/GuestsService";
+import {_apiCreateGuests, _apiUpdateGuests} from "../util/ajax/GuestsService"
+import ajax_loader from './image/ajax_loader.gif'
+import Image from "next/image";
 
 const Home = ({settings}) => {
 
@@ -23,12 +25,15 @@ const Home = ({settings}) => {
     const [no, setNo] = useState('0');
 
     const saveGuestData = async () => {
+        loading_show();
         if (blok === '0') {
             alert('Silahkan untuk pilih Blok rumah yang dikunjungi.');
+            loading_hide();
             return false;
         }
         if (no === '0') {
             alert('Silahkan untuk pilih No rumah yang dikunjungi.');
+            loading_hide();
             return false;
         }
 
@@ -53,24 +58,32 @@ const Home = ({settings}) => {
         localStorage.setItem('no', no);
 
         setViewState('view');
+        loading_hide();
     }
 
     const removeGuestData = async () => {
+        loading_show();
+
         //update api call
         let _id = localStorage.getItem('_id');
         let result = await _apiUpdateGuests(_id);
         if (result === undefined || result === false) {
             alert('Gagal menghubungkan. Periksa kembali koneksi internet anda.');
+            loading_hide();
             return false;
         }
 
         localStorage.clear();
         setViewState('create');
+        loading_hide();
     }
 
     useEffect(() => {
+        loading_show();
+
         let _id = localStorage.getItem('_id');
         if (_id === null) {
+            loading_hide();
             setViewState('create');
         } else {
             const load = async () => {
@@ -83,11 +96,19 @@ const Home = ({settings}) => {
                 setNo(no);
             }
             load().then(() => {
+                loading_hide();
                 setViewState('view');
             });
         }
     }, []);
 
+    function loading_show() {
+        document.getElementById("spinner").classList.add("show");
+    }
+
+    function loading_hide() {
+        document.getElementById("spinner").classList.remove("show");
+    }
 
     return (
         <div>
@@ -110,6 +131,10 @@ const Home = ({settings}) => {
                     </div>
                 </div>
             </nav>
+
+            <div id="spinner">
+                <Image src={ajax_loader} alt="loading..."/>
+            </div>
 
             {viewState === 'create'
                 ?
