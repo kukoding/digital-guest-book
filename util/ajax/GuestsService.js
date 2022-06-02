@@ -15,3 +15,20 @@ export const _apiCreateGuests = async (payload, tipe_tamu) => {
         return false;
     }
 };
+
+export const _apiUpdateGuests = async (_id) => {
+    try {
+        let response = await fetch(`api/guests/${_id}/update`,
+            {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            },
+        );
+        return await response.json();
+    } catch (error) {
+        return false;
+    }
+};
