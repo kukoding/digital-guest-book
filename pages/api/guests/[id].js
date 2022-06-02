@@ -1,4 +1,4 @@
-import {MongoClient} from 'mongodb';
+import {MongoClient, ObjectId} from 'mongodb';
 
 export default async function handler(req, res) {
 
@@ -7,11 +7,11 @@ export default async function handler(req, res) {
 
     const db = client.db(process.env.DB_NAME_ATLAS);
 
-    //todo: search filter
+    const result = await db.collection('guests').find({
+        _id: new ObjectId(req.query.id)
+    }).toArray();
 
-    const result = await db.collection('guests').find({}).toArray();
-
-    res.status(200).json({
+    return res.status(200).json({
         guests: result,
     });
 
