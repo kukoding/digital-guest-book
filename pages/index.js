@@ -2,7 +2,6 @@ import Head from 'next/head'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {_apiCreateGuests, _apiUpdateGuests} from "../util/ajax/GuestsService"
-import ajax_loader from './image/ajax_loader.gif'
 import Image from "next/image";
 
 const Home = ({settings}) => {
@@ -133,7 +132,7 @@ const Home = ({settings}) => {
             </nav>
 
             <div id="spinner">
-                <Image src={ajax_loader} alt="loading..."/>
+                <Image src={require('/public/image/ajax_loader.gif')} alt="loading..." width="25" height="25"/>
             </div>
 
             {viewState === 'create'
@@ -215,6 +214,7 @@ const Home = ({settings}) => {
                 </div>
                 :
                 <div className="container mx-auto">
+                    <Image src={require('/public/image/green-checklist.png')} alt="loading..." width="250" height="250" className="m-5 p-5"/>
                     <p className="p-5">Kepada Yth: <b>{namaTamu}</b><br/>Terima kasih telah mengisi buku tamu.</p>
                     <p className="px-5 pb-5">Anda sedang bertamu ke Rumah <b>Blok {blok} No {no}</b></p>
                     <hr/>
